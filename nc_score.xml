@@ -1,0 +1,99 @@
+<tool id="nc_score" name="nc_score" version="1.0.0">
+  <description>nc.score: similarity measure is an N-dimensional extension of the checkerboard score</description>
+  <command interpreter="python">nc_score_galaxy_frontend.py
+	--x $inputx
+	#if $str($gchoice_y.global_y)  == "1":
+			--y $inputy
+	#end if	
+	--bins  $bins
+	--min_abundance $min_abundance
+	--min_samples $min_samples
+
+	--o_nc_score_results $o_nc_score_results
+   </command>
+	<inputs>
+			<param format="ccrepe" name="inputx"  type="data" label="Input x dataset"  multiple="false"    help="Input x - Please upload using Get Data with format=ccrepe"/>
+			
+		<conditional name="gchoice_y">
+        	<param name="global_y" type="select" label="Use a second dataframe containing the relative abundances in cavity2" >
+        		<option value="0" selected='True'>No</option>
+				<option value="1">Yes</option>
+        	</param>
+           	<when value="0">
+			</when>
+
+        	<when value="1">
+			     <param format="ccrepe" name="inputy"  type="data" label="Input y dataset"  multiple="false"    help="Input y - Please upload using Get / Data with format=ccrepe"/>
+			</when>
+        </conditional>
+			
+		<param name="bins" type="integer" size="4" value="5" min="0" label="Bins"  help="Number of bins to use  "/>
+		
+		<param name="min_abundance" type="float" size="6" value="0.0001" min="0" label="min.abundance" 
+		help="Minimum abundance threshold for quality control filtering.  For a feature to be included, it must take a value of at least  min.abundance  in at least min.samples  percent of samples."/>
+
+		<param name="min_samples" type="float" size="6" value="0.1" min="0" label="min.samples" 
+		help="Minimum sample threshold for quality control filtering.  For a feature to be included, it must take a value of at least min.abundance in at least min.samplespercent of samples."/>
+
+		
+		
+		Minimum sample threshold for quality control filtering.  For a feature to be included, it must take a value of at least \Rcode{min.abundance} in at least \Rcode{min.samples} percent of samples.
+
+		
+    </inputs>
+
+	<outputs>
+            <data  name="o_nc_score_results"  format="ccrepe_nc_score_results"  />
+	</outputs>
+                                  
+  <help>
+Overview
+========
+
+**CCREPE** is a package for analysis of sparse compositional data.  Specifically, it determines the *significance of association between features in a composition*, using any similarity measure (e.g. Pearson correlation, Spearman correlation, etc.)  The CCREPE methodology stands for Compositionality Corrected by Renormalization and Permutation, as detailed below.  The package also provides a novel similarity measure, the N-dimensional checkerboard score (NC-score), particularly appropriate to compositions derived from microbial community sequencing data.  This results in p-values and false discovery rate q-values corrected for the effects of compositionality. 
+
+The package contains two functions:  **CCREPE**  and **NC.SCORE** and is maintained by the Huttenhower Lab. 
+
+General functionality
+=====================
+
+**nc.score**  similarity measure is an N-dimensional extension of the checkerboard score particularly suited to similarity score calculations between compositions derived from ecological relative abundance measurements.
+
+In such cases, features typically represent species abundances, and the NC-score discretizes these continuous values into one of N bins before computing a normalized similarity of co-occurrence or co-exclusion.
+
+This can be used as a standalone function or with ccrepe as above to obtain compositionality-corrected p-values.
+
+The NC-score is an extension to Diamond's checkerboard scoreto ordinal data. 
+
+The generalization of the checkerboard score is through defining general co-variation and co-exclusion patterns in ordinal data. 
+
+Input
+=====
+
+The package can accepts either one input (**x**)  or two inputs (**x and y**)  which are  files in table format.
+
+Please load them into Galaxy using the Get-Data / Upload File and **be sure to select File Format = ccrepe** 
+
+
+Outputs
+=======
+
+nc.score  generates a file with the similarity scores
+
+Sample Files:
+=============
+
+Two sample files can be downloaded from:
+
+https://bitbucket.org/biobakery/galaxy_ccrepe/wiki/ant.narix.txt    
+
+**and**
+
+https://bitbucket.org/biobakery/galaxy_ccrepe/wiki/p.fornix.txt   
+
+Please upload them using Galaxy's Get-Data and assign them file-format **ccrepe**
+
+
+ 
+  </help>
+</tool>
