@@ -20,9 +20,13 @@ Q-values are additionally calculated using the Benjamin-Hochberg-Yekutieli proce
 
 * Edit member **datatypes_conf.xml** in galaxy-dist and add the following 4 lines
     <datatype extension="ccrepe" type="galaxy.datatypes.tabular:Tabular" subclass="True"  display_in_upload="true"   />
+
     <datatype extension="ccrepe_p_value" type="galaxy.datatypes.tabular:Tabular" subclass="True"  display_in_upload="false"   />
+
     <datatype extension="ccrepe_q_value" type="galaxy.datatypes.tabular:Tabular" subclass="True"  display_in_upload="false"   />
+
     <datatype extension="ccrepe_sim_score" type="galaxy.datatypes.tabular:Tabular" subclass="True"  display_in_upload="false"   />
+
     <datatype extension="ccrepe_z_stat" type="galaxy.datatypes.tabular:Tabular" subclass="True"  display_in_upload="false"   />
 
 * Edit member **tool_conf.xml** and add the following  3 lines:
@@ -32,8 +36,3 @@ Q-values are additionally calculated using the Benjamin-Hochberg-Yekutieli proce
      </section>
 
 *  Recycle Galaxy
-
-
-
- 
- 
