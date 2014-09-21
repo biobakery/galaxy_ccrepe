@@ -1,0 +1,102 @@
+<tool id="ccrepe" name="ccrepe" version="1.0.0">
+  <description>Compositionality-corrected p-values and q-values for compositional data</description>
+  <command interpreter="python">ccrepe_galaxy_frontend.py
+	--x $inputx
+	#if $str($gchoice_y.global_y)  == "1":
+			--y $inputy
+	#end if	
+	--min_subj  $min_subj
+	--iterations  $iterations
+	--errthresh  $errthresh
+	--o_p_value  $o_p_value
+	--o_q_value  $o_q_value
+	--o_sim_score_results $o_sim_score_results
+	--o_z_stat_results $o_z_stat_results
+   </command>
+	<inputs>
+			<param format="ccrepe" name="inputx"  type="data" label="Input x dataset"  multiple="false"    help="Input x - Please upload using Get Data with format=ccrepe"/>
+			
+		<conditional name="gchoice_y">
+        	<param name="global_y" type="select" label="Use a second dataframe containing the relative abundances in cavity2" >
+        		<option value="0" selected='True'>No</option>
+				<option value="1">Yes</option>
+        	</param>
+           	<when value="0">
+			</when>
+
+        	<when value="1">
+			     <param format="ccrepe" name="inputy"  type="data" label="Input y dataset"  multiple="false"    help="Input y - Please upload using Get / Data with format=ccrepe"/>
+			</when>
+        </conditional>
+			
+		<param name="min_subj" type="integer" size="4" value="20" min="0" label="Minimum subjects"  help="Minimum number of subjects that must be measured in a bug/feature/column in order to apply the similarity measure
+  to that bug/feature/column.  This is to ensure that there are sufficient subjects to perform a bootstrap (default: 20) "/>
+		<param name="iterations" type="integer" size="4" value="1000" min="0" label="Iterations" help="Number of iterations of bootstrap and permutation (default: 1000)"/>
+		<param name="errthresh" type="float" size="6" value="0.0001" min="0" label="Error Threshold" 
+		help="A numeric value representing the probability of getting all 0's in a given bootstrapped column for the first dataset(default= 0.0001)"/>
+
+		
+    </inputs>
+
+	<outputs>
+            <data  name="o_p_value"  format="ccrepe_p_value"  />
+			<data  name="o_q_value"  format="ccrepe_q_value"  />
+			<data  name="o_sim_score_results"  format="ccrepe_sim_score"  />
+			<data  name="o_z_stat_results"  format="ccrepe_z_stat"  />
+	</outputs>
+                                  
+  <help>
+Overview
+========
+
+**CCREPE** is a package for analysis of sparse compositional data.  Specifically, it determines the *significance of association between features in a composition*, using any similarity measure (e.g. Pearson correlation, Spearman correlation, etc.)  The CCREPE methodology stands for Compositionality Corrected by Renormalization and Permutation, as detailed below.  The package also provides a novel similarity measure, the N-dimensional checkerboard score (NC-score), particularly appropriate to compositions derived from microbial community sequencing data.  This results in p-values and false discovery rate q-values corrected for the effects of compositionality. 
+
+The package contains two functions:  **CCREPE**  and **NC.SCORE** and is maintained by the Huttenhower Lab. 
+
+General functionality
+=====================
+
+Compositional data induces spurious correlations between features due to the nonindependence of values that must sum to a fixed total. 
+
+CCREPE abrogates this when determining the significance of a similarity measure for each feature pair using two main steps, permutation/renormalization and bootstrapping.  
+
+**First**, given two features to compare, CCREPE generates a null distribution of the similarity expected just due to compositionality by iteratively permuting one feature, renormalizing all samples in the composition to their previous sum, and computing the resulting similarity measures. 
+
+**Second**, CCREPE bootstraps over sample subsets in order to assess confidence in the "true" similarity measure. 
+
+**Finally**, the two resulting distributions are compared using a pooled-variance Z-test to give a compositionality-corrected p-value. 
+
+False discovery rate q-values are additionally calculated using the Benjamin-Hochberg-Yekutieli procedure.  
+
+CCREPE employs several filtering steps before the data are processed. 
+
+It removes any missing subjects using na.omit in the two dataset case, any subjects missing in either dataset will be removed.
+
+Any subjects or features which are all zero are removed as well: an all-zero subject cannot be normalized (its sum is 0) and an all-zero feature has standard deviation 0 (in addition to being uninteresting biologically).
+
+
+Input
+=====
+
+The package can accepts either one input (**x**)  or two inputs (**x and y**)  which are  files in table format.
+
+Please load them into Galaxy using the Get-Data / Upload File and **be sure to select File Format = ccrepe** 
+
+
+Outputs
+=======
+
+The package generates four outputs:
+
+**1. p.values**
+
+**2. q.values**
+
+**3. sim.score**
+
+**4. z.stat**
+
+
+ 
+  </help>
+</tool>
