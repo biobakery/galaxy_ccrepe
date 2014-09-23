@@ -51,6 +51,29 @@ from pprint import *
 
 
 ######################################################################################
+#  Prepare Output file                                                               #
+######################################################################################
+def prepare_output_file(iFile, ResultsType):
+	ResultsFile = open(iFile)
+	ResultLines = ResultsFile.readlines()
+	ResultsFile.close()
+	#************************************
+	#* And now open the file for output *
+	#************************************
+	ResultsFile = open(iFile,'w')
+	HeaderLine = ResultsType + " Results\n"
+	ResultsFile.write(HeaderLine)
+	n = 0 
+	for ResultLine in ResultLines:
+		if n == 0:
+			ResultLine = "\t" + ResultLine
+			n = n + 1
+		ResultsFile.write(ResultLine)
+	ResultsFile.close()
+	return  0
+
+
+######################################################################################
 #  Parse input parms                                                                 #
 ######################################################################################
 def read_params(x):
@@ -124,7 +147,7 @@ if results.y is not None:
 robjects.globalenv["nc_score_results"] = nc_score_results
 robjects.globalenv["o_nc_score_results"] = results.o_nc_score_results
 r('write.table(nc_score_results, file = o_nc_score_results , sep = "\t" )')
-
+RC = prepare_output_file(results.o_nc_score_results, "nc.score")					#Insert header and format the file
 
 
 

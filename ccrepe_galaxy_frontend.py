@@ -78,6 +78,30 @@ def read_params(x):
 
 
 
+######################################################################################
+#  Prepare Output file                                                               #
+######################################################################################
+def prepare_output_file(iFile, ResultsType):
+	ResultsFile = open(iFile)
+	ResultLines = ResultsFile.readlines()
+	ResultsFile.close()
+	#************************************
+	#* And now open the file for output *
+	#************************************
+	ResultsFile = open(iFile,'w')
+	HeaderLine = ResultsType + " Results\n"
+	ResultsFile.write(HeaderLine)
+	n = 0 
+	for ResultLine in ResultLines:
+		if n == 0:
+			ResultLine = "\t" + ResultLine
+			n = n + 1
+		ResultsFile.write(ResultLine)
+	ResultsFile.close()
+	return  0
+
+	
+
 
 
 
@@ -124,23 +148,31 @@ p_value = ccrepe_results[0]
 robjects.globalenv["p_value"] = p_value
 robjects.globalenv["o_p_value"] = results.o_p_value
 r('write.table(p_value, file = o_p_value , sep = "\t", col.names = colnames(p_value))')
+RC = prepare_output_file(results.o_p_value, "p.value")					#Insert header and format the file
+
+
+
 
 
 q_value = ccrepe_results[1]
 robjects.globalenv["q_value"] = q_value
 robjects.globalenv["o_q_value"] = results.o_q_value
 r('write.table(q_value, file = o_q_value, sep = "\t", col.names = colnames(q_value))')
+RC = prepare_output_file(results.o_q_value, "q.value")					#Insert header and format the file
+ 
  
 sim_score_results = ccrepe_results[2]
 robjects.globalenv["sim_score_results"] = sim_score_results
 robjects.globalenv["o_sim_score_results"] = results.o_sim_score_results
 r('write.table(sim_score_results, file = o_sim_score_results, sep = "\t", col.names = colnames(sim_score_results))')
-x=8
+RC = prepare_output_file(results.o_sim_score_results, "sim.score")					#Insert header and format the file
+
 
 z_stat_results = ccrepe_results[3]
 robjects.globalenv["z_stat_results"] = z_stat_results
 robjects.globalenv["o_z_stat_results"] = results.o_z_stat_results
 r('write.table(z_stat_results, file = o_z_stat_results, sep = "\t", col.names = colnames(z_stat_results))')
-x=8
+RC = prepare_output_file(results.o_z_stat_results, "z.stat")					#Insert header and format the file
+
 exit(0)
 
