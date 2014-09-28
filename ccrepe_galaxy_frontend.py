@@ -165,7 +165,8 @@ if results.y is not None:
 	stry = results.y
 	robjects.globalenv["y"] = stry
 	y1 = r("read.table(y, head = TRUE)")
-	ccrepe_results = ccrepe.ccrepe(x=x1,y=y1,min_subj=min_subj,iterations=iterations, errthresh=errthresh)
+	ccrepe_results = ccrepe.ccrepe(x=x1,y=y1,min_subj=min_subj,iterations=iterations, errthresh=errthresh,  sim_score=sim_score)
+	#########ccrepe_results = ccrepe.ccrepe(x=x1,y=y1,min_subj=min_subj,iterations=iterations, errthresh=errthresh)
 
 
 
