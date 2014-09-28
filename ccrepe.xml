@@ -8,6 +8,7 @@
 	--min_subj  $min_subj
 	--iterations  $iterations
 	--errthresh  $errthresh
+	--sim_score  $sim_score
 	--o_p_value  $o_p_value
 	--o_q_value  $o_q_value
 	--o_sim_score_results $o_sim_score_results
@@ -34,8 +35,10 @@
 		<param name="iterations" type="integer" size="4" value="1000" min="0" label="Iterations" help="Number of iterations of bootstrap and permutation (default: 1000)"/>
 		<param name="errthresh" type="float" size="6" value="0.0001" min="0" label="Error Threshold" 
 		help="A numeric value representing the probability of getting all 0's in a given bootstrapped column for the first dataset(default= 0.0001)"/>
+		<param name="sim_score" type="text" format="text"  value="cor" label="Similarity measure (For example: cor or nc.score)" 	/>
 
-		
+ 
+
     </inputs>
 
 	<outputs>

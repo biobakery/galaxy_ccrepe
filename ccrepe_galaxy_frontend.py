@@ -44,6 +44,7 @@ import argparse
 
 import rpy2.robjects as robjects
 from rpy2.robjects.packages import *
+import rpy2.rinterface as ri
 import sys, os
 from pprint import *
 
@@ -67,6 +68,7 @@ def read_params(x):
 	parser.add_argument('--min_subj', action="store", type=int,default=20,dest='min_subj',nargs='?')
 	parser.add_argument('--iterations', action="store", type=int,default=1000,dest='iterations',nargs='?')
 	parser.add_argument('--errthresh', action="store", type=float, dest='errthresh',nargs='?', default='0.0001')
+	parser.add_argument('--sim_score', action="store",   dest='sim_score',nargs='?', default='cor')
 
 	parser.add_argument('--o_p_value', action="store", dest='o_p_value',nargs='?',  default='o_p_value')
 	parser.add_argument('--o_q_value', action="store", dest='o_q_value',nargs='?',  default='o_q_value')
@@ -119,6 +121,12 @@ results = parser.parse_args()
 
 
 ccrepe =   importr('ccrepe')
+infotheo =   importr('infotheo')
+nc_score = ccrepe.nc_score
+robjects.globalenv["nc_score"] = nc_score
+
+
+
 strx = results.x
 robjects.globalenv["x"] = strx
 x1 = r("read.table(x, head = TRUE)")
@@ -133,8 +141,25 @@ robjects.globalenv["iterations"] = iterations
 errthresh = results.errthresh
 robjects.globalenv["errthresh"] = errthresh
 
+
+
+sim_score = results.sim_score
+if  sim_score ==  "nc.score":
+	sim_score = nc_score
+
+################sim_score_args_list = robjects.StrVector([])
+################robjects.globalenv["sim_score_args_list"] =  sim_score_args_list
+
+ 
+
+
+
 if results.y is  None:
-	ccrepe_results = ccrepe.ccrepe(x=x1,min_subj=min_subj,iterations=iterations, errthresh=errthresh)
+	###ccrepe_results = ccrepe.ccrepe(x=x1,min_subj=min_subj,iterations=iterations, errthresh=errthresh,sim_score = ccrepe.nc_score )
+	##############ccrepe_results = ccrepe.ccrepe(x=x1,min_subj=min_subj,iterations=iterations, errthresh=errthresh,  sim_score=nc_score, sim_score_args=sim_score_args_list )
+	######ccrepe_results = ccrepe.ccrepe(x=x1,min_subj=min_subj,iterations=iterations, errthresh=errthresh,  sim_score=sim_score, sim_score_args=sim_score_args_list )
+	ccrepe_results = ccrepe.ccrepe(x=x1,min_subj=min_subj,iterations=iterations, errthresh=errthresh,  sim_score=sim_score)
+ 
 
 if results.y is not None:
 	stry = results.y
