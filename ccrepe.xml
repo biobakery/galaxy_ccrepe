@@ -9,6 +9,7 @@
 	--iterations  $iterations
 	--errthresh  $errthresh
 	--sim_score  $sim_score
+	--sim_score_args_input $sim_score_args_input
 	--o_p_value  $o_p_value
 	--o_q_value  $o_q_value
 	--o_sim_score_results $o_sim_score_results
@@ -36,8 +37,9 @@
 		<param name="errthresh" type="float" size="6" value="0.0001" min="0" label="Error Threshold" 
 		help="A numeric value representing the probability of getting all 0's in a given bootstrapped column for the first dataset(default= 0.0001)"/>
 		<param name="sim_score" type="text" format="text"  value="cor" label="Similarity measure (For example: cor or nc.score)" 	/>
+		<param name="sim_score_args_input" type="text" format="text"  value="" label="An optional list of arguments for the measurement function" 
+		help="When given, they are passed to the sim.score function directly. For example: For cor:  'method=spearman'"/>
 
- 
 
     </inputs>
 

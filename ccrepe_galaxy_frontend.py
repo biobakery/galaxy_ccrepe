@@ -69,6 +69,8 @@ def read_params(x):
 	parser.add_argument('--iterations', action="store", type=int,default=1000,dest='iterations',nargs='?')
 	parser.add_argument('--errthresh', action="store", type=float, dest='errthresh',nargs='?', default='0.0001')
 	parser.add_argument('--sim_score', action="store",   dest='sim_score',nargs='?', default='cor')
+	parser.add_argument('--sim_score_args_input', action="store",   dest='sim_score_args_input',nargs='?', default='')
+	
 
 	parser.add_argument('--o_p_value', action="store", dest='o_p_value',nargs='?',  default='o_p_value')
 	parser.add_argument('--o_q_value', action="store", dest='o_q_value',nargs='?',  default='o_q_value')
@@ -147,27 +149,30 @@ sim_score = results.sim_score
 if  sim_score ==  "nc.score":
 	sim_score = nc_score
 
-################sim_score_args_list = robjects.StrVector([])
-################robjects.globalenv["sim_score_args_list"] =  sim_score_args_list
-
  
 
 
 
+dSimScoreArgs = dict()
+if  results.sim_score_args_input  is not None:
+	lSimScoreArgs = results.sim_score_args_input.split(',')
+	for sSimScoreArg in lSimScoreArgs:
+		ArgKey = sSimScoreArg.split('=')[0]
+		ArgValue = sSimScoreArg.split('=')[1]
+		dSimScoreArgs[ArgKey] = ArgValue 
+ 
+sim_score_args = robjects.ListVector(dSimScoreArgs)
+
 if results.y is  None:
-	###ccrepe_results = ccrepe.ccrepe(x=x1,min_subj=min_subj,iterations=iterations, errthresh=errthresh,sim_score = ccrepe.nc_score )
-	##############ccrepe_results = ccrepe.ccrepe(x=x1,min_subj=min_subj,iterations=iterations, errthresh=errthresh,  sim_score=nc_score, sim_score_args=sim_score_args_list )
-	######ccrepe_results = ccrepe.ccrepe(x=x1,min_subj=min_subj,iterations=iterations, errthresh=errthresh,  sim_score=sim_score, sim_score_args=sim_score_args_list )
-	ccrepe_results = ccrepe.ccrepe(x=x1,min_subj=min_subj,iterations=iterations, errthresh=errthresh,  sim_score=sim_score)
+	ccrepe_results = ccrepe.ccrepe(x=x1,min_subj=min_subj,iterations=iterations, errthresh=errthresh,  sim_score=sim_score, sim_score_args=sim_score_args)
+
  
 
 if results.y is not None:
 	stry = results.y
 	robjects.globalenv["y"] = stry
 	y1 = r("read.table(y, head = TRUE)")
-	ccrepe_results = ccrepe.ccrepe(x=x1,y=y1,min_subj=min_subj,iterations=iterations, errthresh=errthresh,  sim_score=sim_score)
-	#########ccrepe_results = ccrepe.ccrepe(x=x1,y=y1,min_subj=min_subj,iterations=iterations, errthresh=errthresh)
-
+	ccrepe_results = ccrepe.ccrepe(x=x1,y=y1,min_subj=min_subj,iterations=iterations, errthresh=errthresh,  sim_score=sim_score, sim_score_args=sim_score_args)
 
 
 p_value = ccrepe_results[0]
