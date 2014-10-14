@@ -88,10 +88,8 @@ def read_params(x):
 	except: 
 		pass
 		
-	parser.add_argument('--bins', action="store", type=int,default=5,dest='bins',nargs='?')
-	parser.add_argument('--min_abundance', action="store", type=float, dest='min_abundance',nargs='?', default='0.0001')
-	parser.add_argument('--min_samples', action="store", type=float, dest='min_samples',nargs='?', default='0.1')
-
+	parser.add_argument('--nbins', action="store", type=int,default=5,dest='nbins',nargs='?')
+	parser.add_argument('--useparm', action="store",default="'everything'",dest='useparm',nargs='?')
 	parser.add_argument('--o_nc_score_results', action="store", dest='o_nc_score_results',nargs='?',  default='o_nc_score_results')
 
 	CommonArea['parser'] = parser
@@ -121,26 +119,26 @@ strx = results.x
 robjects.globalenv["x"] = strx
 x1 = r("read.table(x, head = TRUE)")
 
-bins = results.bins
-robjects.globalenv["bins"] = bins
+nbins = results.nbins
+robjects.globalenv["nbins"] = nbins
 
-min_abundance = results.min_abundance
-robjects.globalenv["min_abundance"] = min_abundance
+useparm = results.useparm
+robjects.globalenv["useparm"] = useparm
 
 
-min_samples = results.min_samples
-robjects.globalenv["min_samples"] = min_samples
+
+
 
 
 
 if results.y is  None:
-	nc_score_results = ccrepe.nc_score(x=x1,bins=bins,min_abundance=min_abundance,min_samples=min_samples)
+	nc_score_results = ccrepe.nc_score(x=x1,nbins=nbins,use=useparm)
 
 if results.y is not None:
 	stry = results.y
 	robjects.globalenv["y"] = stry
 	y1 = r("read.table(y, head = TRUE)")
-	nc_score_results = ccrepe.nc_score(x=x1,y=y1,bins=bins,min_abundance=min_abundance,min_samples=min_samples)
+	nc_score_results = ccrepe.nc_score(x=x1,y=y1,nbins=nbins,use=useparm)
 
 	
 

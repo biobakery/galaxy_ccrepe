@@ -5,10 +5,8 @@
 	#if $str($gchoice_y.global_y)  == "1":
 			--y $inputy
 	#end if	
-	--bins  $bins
-	--min_abundance $min_abundance
-	--min_samples $min_samples
-
+	--nbins  $nbins
+	--useparm  $useparm
 	--o_nc_score_results $o_nc_score_results
    </command>
 	<inputs>
@@ -27,19 +25,9 @@
 			</when>
         </conditional>
 			
-		<param name="bins" type="integer" size="4" value="5" min="0" label="Bins"  help="Number of bins to use  "/>
-		
-		<param name="min_abundance" type="float" size="6" value="0.0001" min="0" label="min.abundance" 
-		help="Minimum abundance threshold for quality control filtering.  For a feature to be included, it must take a value of at least  min.abundance  in at least min.samples  percent of samples."/>
-
-		<param name="min_samples" type="float" size="6" value="0.1" min="0" label="min.samples" 
-		help="Minimum sample threshold for quality control filtering.  For a feature to be included, it must take a value of at least min.abundance in at least min.samplespercent of samples."/>
-
-		
-		
-		Minimum sample threshold for quality control filtering.  For a feature to be included, it must take a value of at least \Rcode{min.abundance} in at least \Rcode{min.samples} percent of samples.
-
-		
+		<param name="nbins" type="integer" size="4" value="5" min="0" label="Bins"  help="Number of bins to use  "/>
+		<param name="useparm" type="text" format="text"  value="everything" label="use"/>
+	
     </inputs>
 
 	<outputs>
