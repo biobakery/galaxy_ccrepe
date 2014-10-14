@@ -71,13 +71,18 @@ nc.score  generates a file with the similarity scores
 Sample Files:
 =============
 
-Two sample files can be downloaded from:
+Three sample files can be downloaded from:
+
+
+https://bitbucket.org/biobakery/galaxy_ccrepe/wiki/testdata.txt
+
 
 https://bitbucket.org/biobakery/galaxy_ccrepe/wiki/ant.narix.txt    
 
-**and**
 
 https://bitbucket.org/biobakery/galaxy_ccrepe/wiki/p.fornix.txt   
+
+
 
 Please upload them using Galaxy's Get-Data and assign them file-format **ccrepe**
 

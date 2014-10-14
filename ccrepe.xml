@@ -102,6 +102,27 @@ The package generates four outputs:
 **4. z.stat**
 
 
+
+Sample Files
+============
+
+Three sample files can be downloaded from:
+
+
+https://bitbucket.org/biobakery/galaxy_ccrepe/wiki/testdata.txt
+
+
+https://bitbucket.org/biobakery/galaxy_ccrepe/wiki/ant.narix.txt
+
+
+https://bitbucket.org/biobakery/galaxy_ccrepe/wiki/p.fornix.txt
+
+
+
+Please upload them using Galaxy's Get-Data and assign them file-format **ccrepe**
+
  
   </help>
+q
+q
 </tool>
